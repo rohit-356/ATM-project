@@ -1,26 +1,22 @@
 # ATM System
 
-A simple menu-driven ATM system built in Python using package architecture.
+A simple menu-driven ATM system built in Python.
 
 ## Features
 
 - **Display Balance** – View the current account balance.
 - **Deposit Money** – Add funds to the account.
 - **Withdraw Money** – Withdraw funds with insufficient-balance validation.
-- **Account Statement** – View a timestamped record of all transactions.
+- **Account Statement** – View a record of all transactions.
 
 ## Project Structure
 
 ```
-atm_system/
-├── main.py              # Entry point (menu loop, no business logic)
+ATM-project/
+├── main.py              # Entry point (menu loop)
+├── atm_helpers.py       # Helper functions for ATM operations
 ├── README.md
-├── .gitignore
-└── atm/                 # Package containing all logic
-    ├── __init__.py      # Public API exports
-    ├── account.py       # Account class (balance + transaction history)
-    ├── operations.py    # Deposit, withdraw, balance, statement functions
-    └── display.py       # Menu rendering and user input
+└── .gitignore
 ```
 
 ## How to Run
@@ -31,7 +27,9 @@ python main.py
 
 ## Architecture
 
-- **main.py** – Contains only the menu loop and delegates all operations to the `atm` package.
-- **atm/account.py** – `Account` class that manages balance and records every transaction with a timestamp.
-- **atm/operations.py** – Functions for deposit, withdrawal, balance display, and statement printing.
-- **atm/display.py** – Menu display and user input handling.
+This project has been refactored to simplify the architecture:
+- Removed the `Account` class in favor of passing variables (`balance`, `holder_name`, `transactions`).
+- Flattened the directory structure by removing the `atm` package.
+- Transactions are stored as plain readable strings without timestamps.
+- **main.py** – Contains the menu loop and maintains the state variables.
+- **atm_helpers.py** – Contains pure functions for menu display, getting input, deposits, withdrawals, and printing statements.

@@ -1,15 +1,8 @@
-"""
-ATM System — Main Entry Point
-No business logic here; everything is delegated to the atm package.
-"""
-
-from atm import Account, show_menu, get_choice
-from atm import display_balance, deposit, withdraw, print_statement
-
+from atm_helpers import show_menu, get_choice, display_balance, deposit, withdraw, print_statement
 
 def main():
     print("\n  Welcome to the ATM System!")
-    name = input("  Enter account holder name: ").strip()
+    holder_name = input("  Enter account holder name: ").strip()
 
     # Create an account with an optional opening balance
     try:
@@ -17,8 +10,11 @@ def main():
     except ValueError:
         balance = 0
 
-    account = Account(holder_name=name, initial_balance=balance)
-    print(f"\n  [SUCCESS] Account created for {name} with balance Rs.{balance:,.2f}")
+    transactions = []
+    if balance > 0:
+        transactions.append(f"OPENING BALANCE: Rs.{balance:,.2f} | Balance: Rs.{balance:,.2f}")
+
+    print(f"\n  [SUCCESS] Account created for {holder_name} with balance Rs.{balance:,.2f}")
 
     # ---- Infinite loop menu system ----
     while True:
@@ -26,13 +22,13 @@ def main():
         choice = get_choice()
 
         if choice == "1":
-            display_balance(account)
+            display_balance(holder_name, balance)
         elif choice == "2":
-            deposit(account)
+            balance = deposit(balance, transactions)
         elif choice == "3":
-            withdraw(account)
+            balance = withdraw(balance, transactions)
         elif choice == "4":
-            print_statement(account)
+            print_statement(holder_name, transactions)
         elif choice == "5":
             print("\n  Thank you for using the ATM. Goodbye!\n")
             break
